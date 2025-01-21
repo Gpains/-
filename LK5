@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string longestPalindrome(string s) 
+    {
+        vector<vector<int>> dp(s.size(),vector<int>(s.size(),false));//声明一个二维的布尔类型动态数组DP，外层内层vector大小均为s.size()，初始化值为false
+        int begin=0;//开头
+        int maxlen=1;//最长距离
+        for (int i=s.size()-1;i>=0;i--)
+        {
+            for(int j=i;j<s.size();j++)
+            {
+                if(s[i]==s[j] && (j-i<=1||dp[i+1][j-1]))//循环内，头尾相同分两种情况，其一即可（两端相同则两端缩回一个长度进行比较）
+                {
+                    dp[i][j]=true;//DP为真
+                    if(j-i+1>=maxlen)//j-i+1为符合条件情况的头尾距离，符合则更新数据
+                    {
+                        begin=i;
+                        maxlen=j-i+1;
+                    }
+                }
+            }
+        }
+
+        return s.substr(begin,maxlen);//s.substr（i,j）计算返回ij之间距离
+
+    }
+};
